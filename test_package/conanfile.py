@@ -2,7 +2,7 @@ from conans import ConanFile, tools
 
 class LibtorrentTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "Libtorrent/1.1.4@lola/libtorrent"
+    requires = "Libtorrent/1.1.4@lola/stable"
     generators = "cmake"
 
     def configure(self):
