@@ -19,10 +19,3 @@ class LibtorrentTestConan(ConanFile):
           self.options["Libtorrent"].fPIC=True
           self.options["Boost"].fPIC=True
           self.options["bzip2"].fPIC=True
-
-
-    def test(self):
-      # self.conanfile_directory
-      with tools.pythonpath(self):
-            import libtorrent
-            print("Libtorrent version: %s" % libtorrent.version)
