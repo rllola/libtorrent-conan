@@ -9,7 +9,7 @@ class Libtorrent(ConanFile):
 libtorrent is an open source C++ library implementing the BitTorrent protocol, along with most popular extensions, making it suitable for real world deployment. It is configurable to be able to fit both servers and embedded devices.
     '''
     url = "https://github.com/rllola/libtorrent-conan.git"
-    source_url = "git@github.com:arvidn/libtorrent.git"
+    source_url = "https://github.com/arvidn/libtorrent.git"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     requires = "Boost/1.60.0@lasote/stable" , "OpenSSL/1.0.2j@lasote/stable"
