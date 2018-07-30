@@ -3,7 +3,7 @@ import os
 
 class Libtorrent(ConanFile):
     name = "Libtorrent"
-    version = "1.1.4"
+    version = "1.1.8"
     license = "Copyright (c) 2003-2016, Arvid Norberg"
     description = '''
 libtorrent is an open source C++ library implementing the BitTorrent protocol, along with most popular extensions, making it suitable for real world deployment. It is configurable to be able to fit both servers and embedded devices.
@@ -12,7 +12,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
     source_url = "https://github.com/arvidn/libtorrent.git"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = "Boost/1.60.0@lasote/stable" , "OpenSSL/1.0.2j@lasote/stable"
+    requires = "boost/1.67.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
     build_policy = "missing"
 
     options = {
