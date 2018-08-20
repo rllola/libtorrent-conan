@@ -12,7 +12,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
     source_url = "https://github.com/arvidn/libtorrent.git"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = "boost/1.67.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
+    requires = "boost/1.68.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
     build_policy = "missing"
 
     options = {
