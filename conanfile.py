@@ -12,7 +12,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
     source_url = "https://github.com/arvidn/libtorrent.git"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = "boost/1.68.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
+    requires = "boost/1.66.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
     build_policy = "missing"
 
     options = {
@@ -52,8 +52,38 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
         #on linux boost needs to have been compiled wtih -fPIC so it can be embedded into Libtorrent
         #we will also build libtorrent static lib with position independent code so it can be embedded
         #in another shared lib
+
+        self.options["boost"].shared=True
+        self.options["boost"].without_python=False
+        self.options["boost"].without_atomic=True
+        self.options["boost"].without_container=True
+        self.options["boost"].without_context=True
+#        self.options["boost"].without_contract=True
+        self.options["boost"].without_coroutine=True
+        self.options["boost"].without_date_time=True
+        self.options["boost"].without_exception=True
+        self.options["boost"].without_fiber=True
+        self.options["boost"].without_filesystem=True
+        self.options["boost"].without_graph=True
+        self.options["boost"].without_graph_parallel=True
+        self.options["boost"].without_iostreams=True
+        self.options["boost"].without_locale=True
+        self.options["boost"].without_log=True
+        self.options["boost"].without_math=True
+        self.options["boost"].without_mpi=True
+        self.options["boost"].without_program_options=True
+        self.options["boost"].without_regex=True
+        self.options["boost"].without_serialization=True
+        self.options["boost"].without_signals=True
+        self.options["boost"].without_stacktrace=True
+        self.options["boost"].without_test=True
+        self.options["boost"].without_thread=True
+        self.options["boost"].without_timer=True
+        self.options["boost"].without_type_erasure=True
+        self.options["boost"].without_wave=True
+
         if str(self.settings.os) == "Linux":
-            self.options["Boost"].fPIC=True
+            self.options["boost"].fPIC=True
             self.options.fPIC=True
 
     def source(self):
@@ -90,7 +120,7 @@ conan_basic_setup()''')
         #https://github.com/boostorg/asio/blob/d6d2c452f5e874e1cb3dc0bc71eb9b6c57dc2f48/include/boost/asio/ip/address_v4.hpp#L49
         cpp_standard = "-DCMAKE_CXX_STANDARD=11"
 
-        cmake = CMake(self.settings)
+        cmake = CMake(self)
         self.run("cmake %s %s %s libtorrent" % (cmake.command_line, defs, cpp_standard))
         self.run("cmake --build . %s" % cmake.build_config)
 
