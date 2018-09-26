@@ -6,6 +6,7 @@ test_package/conaninfo.txt
 *.log
 libtorrent/
 examples/
+lib/
 libtorrent-rasterbar.pc
 conanbuildinfo.cmake
 conanbuildinfo.txt
