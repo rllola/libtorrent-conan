@@ -53,7 +53,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
         #we will also build libtorrent static lib with position independent code so it can be embedded
         #in another shared lib
 
-        self.options["boost"].shared=True
+        self.options["boost"].shared=False
         self.options["boost"].without_python=False
         self.options["boost"].without_atomic=True
         self.options["boost"].without_container=True
@@ -85,6 +85,11 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
         if str(self.settings.os) == "Linux":
             self.options["boost"].fPIC=True
             self.options.fPIC=True
+
+    def imports(self):
+       self.copy("*.dll", "bin", "bin")
+       self.copy("*.dylib", "lib", "lib")
+#       self.copy("*.so", "lib", "lib")
 
     def source(self):
         self.run("git clone %s" % self.source_url)
