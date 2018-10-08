@@ -53,6 +53,10 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
         #we will also build libtorrent static lib with position independent code so it can be embedded
         #in another shared lib
 
+	# Otherwise Windows is not abe to find the lib
+        # https://github.com/conan-community/conan-boost/issues/121
+        self.options["boost"].skip_lib_rename=True
+	
         self.options["boost"].shared=False
         self.options["boost"].without_python=False
         self.options["boost"].without_atomic=True
