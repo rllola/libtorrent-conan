@@ -9,7 +9,7 @@ class Libtorrent(ConanFile):
 libtorrent is an open source C++ library implementing the BitTorrent protocol, along with most popular extensions, making it suitable for real world deployment. It is configurable to be able to fit both servers and embedded devices.
     '''
     url = "https://github.com/rllola/libtorrent-conan.git"
-    source_url = "https://github.com/arvidn/libtorrent.git"
+    source_url = "https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_1_8/libtorrent-rasterbar-1.1.8.tar.gz"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     requires = "boost/1.66.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
@@ -56,7 +56,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
 	# Otherwise Windows is not abe to find the lib
         # https://github.com/conan-community/conan-boost/issues/121
         self.options["boost"].skip_lib_rename=True
-	
+
         self.options["boost"].shared=False
         self.options["boost"].without_python=False
         self.options["boost"].without_atomic=True
@@ -96,8 +96,9 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
 #       self.copy("*.so", "lib", "lib")
 
     def source(self):
-        self.run("git clone %s" % self.source_url)
-        self.run("cd libtorrent && git checkout RC_1_1")
+        self.run("wget %s" % self.source_url)
+        self.run("tar -xvzf libtorrent-rasterbar-1.1.8.tar.gz")
+        self.run("mv libtorrent-rasterbar-1.1.8 libtorrent")
 
         tools.replace_in_file("libtorrent/CMakeLists.txt", "project(libtorrent)", '''project(libtorrent)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
