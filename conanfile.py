@@ -1,15 +1,17 @@
 from conans import ConanFile, CMake, tools
 import os
+import urllib
+import tarfile
 
 class Libtorrent(ConanFile):
     name = "Libtorrent"
-    version = "1.1.8"
+    version = "1.1.10"
     license = "Copyright (c) 2003-2016, Arvid Norberg"
     description = '''
 libtorrent is an open source C++ library implementing the BitTorrent protocol, along with most popular extensions, making it suitable for real world deployment. It is configurable to be able to fit both servers and embedded devices.
     '''
     url = "https://github.com/rllola/libtorrent-conan.git"
-    source_url = "https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_1_8/libtorrent-rasterbar-1.1.8.tar.gz"
+    source_url = "https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_1_10/libtorrent-rasterbar-1.1.10.tar.gz"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     requires = "boost/1.66.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
@@ -96,9 +98,13 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
 #       self.copy("*.so", "lib", "lib")
 
     def source(self):
-        self.run("wget %s" % self.source_url)
-        self.run("tar -xvzf libtorrent-rasterbar-1.1.8.tar.gz")
-        self.run("mv libtorrent-rasterbar-1.1.8 libtorrent")
+        #self.run("wget %s" % self.source_url)
+        urllib.urlretrieve (self.source_url, "libtorrent-rasterbar-1.1.10.tar.gz")
+        #self.run("tar -xvzf libtorrent-rasterbar-1.1.10.tar.gz")
+        tar = tarfile.open("libtorrent-rasterbar-1.1.10.tar.gz")
+        tar.extractall()
+        tar.close()
+        self.run("mv libtorrent-rasterbar-1.1.10 libtorrent")
 
         tools.replace_in_file("libtorrent/CMakeLists.txt", "project(libtorrent)", '''project(libtorrent)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
