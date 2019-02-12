@@ -5,16 +5,16 @@ import tarfile
 
 class Libtorrent(ConanFile):
     name = "Libtorrent"
-    version = "1.1.10"
+    version = "1.1.12"
     license = "Copyright (c) 2003-2016, Arvid Norberg"
     description = '''
 libtorrent is an open source C++ library implementing the BitTorrent protocol, along with most popular extensions, making it suitable for real world deployment. It is configurable to be able to fit both servers and embedded devices.
     '''
     url = "https://github.com/rllola/libtorrent-conan.git"
-    source_url = "https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_1_10/libtorrent-rasterbar-1.1.10.tar.gz"
+    source_url = "https://github.com/arvidn/libtorrent/releases/download/libtorrent_1_1_12/libtorrent-rasterbar-1.1.12.tar.gz"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = "boost/1.66.0@conan/stable" , "OpenSSL/1.0.2o@conan/stable"
+    requires = "boost/1.69.0@conan/stable" , "OpenSSL/1.0.1h@conan/stable"
     build_policy = "missing"
 
     options = {
@@ -57,7 +57,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
 
 	# Otherwise Windows is not abe to find the lib
         # https://github.com/conan-community/conan-boost/issues/121
-        self.options["boost"].skip_lib_rename=True
+#        self.options["boost"].skip_lib_rename=True
 
         self.options["boost"].shared=False
         self.options["boost"].without_python=False
@@ -80,7 +80,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
         self.options["boost"].without_program_options=True
         self.options["boost"].without_regex=True
         self.options["boost"].without_serialization=True
-        self.options["boost"].without_signals=True
+#        self.options["boost"].without_signals=True
         self.options["boost"].without_stacktrace=True
         self.options["boost"].without_test=True
         self.options["boost"].without_thread=True
@@ -93,20 +93,26 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
             self.options.fPIC=True
 
     def imports(self):
-       self.copy("*.dll", "bin", "bin")
-       self.copy("*.dylib", "lib", "lib")
+        self.copy("*.dll", "bin", "bin")
+        self.copy("*.dylib", "lib", "lib")
 #       self.copy("*.so", "lib", "lib")
 
     def source(self):
         #self.run("wget %s" % self.source_url)
-        urllib.urlretrieve (self.source_url, "libtorrent-rasterbar-1.1.10.tar.gz")
+        urllib.urlretrieve (self.source_url, "libtorrent-rasterbar-1.1.12.tar.gz")
         #self.run("tar -xvzf libtorrent-rasterbar-1.1.10.tar.gz")
-        tar = tarfile.open("libtorrent-rasterbar-1.1.10.tar.gz")
+        tar = tarfile.open("libtorrent-rasterbar-1.1.12.tar.gz")
         tar.extractall()
         tar.close()
-        self.run("mv libtorrent-rasterbar-1.1.10 libtorrent")
+        self.run("mv libtorrent-rasterbar-1.1.12 libtorrent")
 
-        tools.replace_in_file("libtorrent/CMakeLists.txt", "project(libtorrent)", '''project(libtorrent)
+        tools.replace_in_file("libtorrent/CMakeLists.txt", '''project(libtorrent
+	DESCRIPTION "Bittorrent library"
+	VERSION 1.1.12
+)''', '''project(libtorrent
+	DESCRIPTION "Bittorrent library"
+	VERSION 1.1.12
+)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
 
@@ -160,7 +166,7 @@ conan_basic_setup()''')
 
         # debug
         if self.settings.build_type == "Debug":
-             self.cpp_info.defines.append("TORRENT_DEBUG")
+            self.cpp_info.defines.append("TORRENT_DEBUG")
 
         # build_tests
         if self.options.build_tests:

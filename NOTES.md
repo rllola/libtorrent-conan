@@ -1,2 +1,2 @@
 conan export . lola/stable
-conan upload Libtorrent/1.1.8@lola/stable -r libtorrent --all
+conan upload Libtorrent/1.1.12@lola/stable -r libtorrent --all
