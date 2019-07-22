@@ -1,6 +1,16 @@
 from conans import ConanFile, CMake, tools
 import os
-import urllib
+import sys
+
+if sys.version_info[0] >= 3:
+    from urllib.request import urlretrieve
+else:
+    # Not Python 3 - today, it is most likely to be Python 2
+    # But note that this might need an update when Python 4
+    # might be around one day
+    from urllib import urlretrieve
+
+
 import tarfile
 
 class Libtorrent(ConanFile):
@@ -99,7 +109,7 @@ libtorrent is an open source C++ library implementing the BitTorrent protocol, a
 
     def source(self):
         #self.run("wget %s" % self.source_url)
-        urllib.urlretrieve (self.source_url, "libtorrent-rasterbar-1.1.12.tar.gz")
+        urlretrieve (self.source_url, "libtorrent-rasterbar-1.1.12.tar.gz")
         #self.run("tar -xvzf libtorrent-rasterbar-1.1.10.tar.gz")
         tar = tarfile.open("libtorrent-rasterbar-1.1.12.tar.gz")
         tar.extractall()
